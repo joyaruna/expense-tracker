@@ -78,6 +78,7 @@
   border: 1px solid #800080;
   border-radius: 30px;
   padding: 1rem 1.5rem;
+  margin-bottom: .8rem;
 }
 
 .tracker-name {
@@ -179,4 +180,22 @@
   color: #DC143C;
   font-size: .9rem;
   cursor: pointer;
+}
+.tracker-date {
+  color: #800080;
+  font-size: 16px;
+  font-family: cursive;
+  margin: 0;
+  text-align: center;
+}
+.date-picker {
+  text-align: center;
+  padding: .5rem 1.5rem;
+  border: 1px solid #800080;
+  border-radius: 50px;
+  font-size: 16px;
+  background-color: #F8C8DC;
+  color: #800080;
+  outline-style: none;
+  margin-bottom: 1rem;
 }

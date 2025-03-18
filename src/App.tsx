@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PlusCircle, Trash2, Asterisk } from "lucide-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import "./App.css";
 
@@ -12,33 +14,52 @@ interface Expense {
 interface ExpenseTracker {
   id: number;
   name: string;
+  date: Date;
   expenses: Expense[];
   status: "In progress ⚠️" | "Cleared ✅";
   expanded: boolean;
 }
 
 const App: React.FC = () => {
-  const [trackers, setTrackers] = useState<ExpenseTracker[]>(
-    JSON.parse(localStorage.getItem("trackers") || "[]")
-  );
+  const [trackers, setTrackers] = useState<ExpenseTracker[]>(() => {
+    const storedTrackers = localStorage.getItem("trackers");
+    if (!storedTrackers) return [];
+
+    return JSON.parse(storedTrackers).map((tracker: Partial<ExpenseTracker>) => ({
+      id: tracker.id || Date.now(),
+      name: tracker.name || "",
+      date: tracker.date ? new Date(tracker.date) : new Date(),
+      expenses: tracker.expenses || [],
+      status: tracker.status || "In progress ⚠️",
+      expanded: tracker.expanded || false,
+    })).sort((a: ExpenseTracker, b: ExpenseTracker) => b.date.getTime() - a.date.getTime());
+  });
+
+
   const [trackerName, setTrackerName] = useState<string>("");
+  const [trackerDate, setTrackerDate] = useState<Date | null>(new Date());
+
 
   useEffect(() => {
     localStorage.setItem("trackers", JSON.stringify(trackers));
   }, [trackers]);
 
   const addTracker = (): void => {
-    if (!trackerName) return;
+    if (!trackerName || !trackerDate) return;
     const newTracker: ExpenseTracker = {
       id: Date.now(),
       name: trackerName,
+      date: trackerDate,
       expenses: [],
       status: "In progress ⚠️",
       expanded: false,
     };
-    setTrackers([...trackers, newTracker]);
+    
+    setTrackers(prevTrackers => [...prevTrackers, newTracker].sort((a, b) => b.date.getTime() - a.date.getTime()));
     setTrackerName("");
+    setTrackerDate(new Date());
   };
+
 
   const deleteTracker = (trackerId: number): void => {
     setTrackers(trackers.filter(tracker => tracker.id !== trackerId));
@@ -92,12 +113,20 @@ const App: React.FC = () => {
           onChange={(e) => setTrackerName(e.target.value)}
           className="input-box"
         />
+        <DatePicker
+          selected={trackerDate}
+          onChange={(date: Date | null) => setTrackerDate(date)}
+          dateFormat="yyyy-MM-dd"
+          placeholderText="Select Date"
+          className="date-picker"
+        />
         <button className="add-button" onClick={addTracker}>Add Tracker</button>
       </div>
       <div className="tracker-list">
         {trackers.map((tracker) => (
           <div key={tracker.id} className="tracker-card">
             <h2 className="tracker-name">{tracker.name}</h2>
+            <p className="tracker-date">Created @ {tracker.date.toDateString()}</p>
             <h3 className="total">Total: ${getTotal(tracker).toFixed(2)}</h3>
             <p className="status">Status: {tracker.status ? tracker.status : "In progress ⚠️"}</p>
             <p onClick={() => toggleExpand(tracker.id)} className="expand-button">
