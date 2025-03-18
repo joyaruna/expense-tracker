@@ -14,6 +14,7 @@ interface ExpenseTracker {
   name: string;
   expenses: Expense[];
   status: "In progress ⚠️" | "Cleared ✅";
+  expanded: boolean;
 }
 
 const App: React.FC = () => {
@@ -33,6 +34,7 @@ const App: React.FC = () => {
       name: trackerName,
       expenses: [],
       status: "In progress ⚠️",
+      expanded: false,
     };
     setTrackers([...trackers, newTracker]);
     setTrackerName("");
@@ -62,6 +64,14 @@ const App: React.FC = () => {
     ));
   };
 
+  const toggleExpand = (trackerId: number): void => {
+    setTrackers(trackers.map(tracker =>
+      tracker.id === trackerId
+        ? { ...tracker, expanded: !tracker.expanded }
+        : tracker
+    ));
+  };
+
   const getTotal = (tracker: ExpenseTracker): number => {
     return tracker.expenses.reduce((sum, expense) => sum + expense.amount, 0);
   };
@@ -85,33 +95,40 @@ const App: React.FC = () => {
             <h2 className="tracker-name">{tracker.name}</h2>
             <h3 className="total">Total: ${getTotal(tracker).toFixed(2)}</h3>
             <p className="status">Status: {tracker.status ? tracker.status : "In progress ⚠️"}</p>
-            {tracker.status === "In progress ⚠️" &&
-              <div className="item-group">
-                <input type="text" placeholder="Input Expense Title" id={`title-${tracker.id}`} className="title-input" />
-                <input type="number" placeholder="Input Amount (USD)" id={`amount-${tracker.id}`} className="amount-input" />
-                <button onClick={() => {
-                  const titleInput = document.getElementById(`title-${tracker.id}`) as HTMLInputElement;
-                  const amountInput = document.getElementById(`amount-${tracker.id}`) as HTMLInputElement;
-                  addExpense(tracker.id, titleInput.value, amountInput.value);
-                  titleInput.value = "";
-                  amountInput.value = "";
-                }} className="item-add-button">
-                  <PlusCircle size={18} color="#097969"  />
-                </button>
-              </div>
-            }
-              {tracker.expenses.map((expense) => (
-                <div key={expense.id} className="item-container">
-                  <div style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
-                  <Asterisk size={15} color="#800080" />
-                  <p className="item-name">{expense.title}: ${expense.amount.toFixed(2)}</p>
+            <p onClick={() => toggleExpand(tracker.id)} className="expand-button">
+              {tracker.expanded ? "Show Less..🤌" : "View More..👆"}
+            </p>
+            {tracker.expanded && (
+              <>
+                {tracker.status === "In progress ⚠️" &&
+                  <div className="item-group">
+                    <input type="text" placeholder="Input Expense Title" id={`title-${tracker.id}`} className="title-input" />
+                    <input type="number" placeholder="Input Amount (USD)" id={`amount-${tracker.id}`} className="amount-input" />
+                    <button onClick={() => {
+                      const titleInput = document.getElementById(`title-${tracker.id}`) as HTMLInputElement;
+                      const amountInput = document.getElementById(`amount-${tracker.id}`) as HTMLInputElement;
+                      addExpense(tracker.id, titleInput.value, amountInput.value);
+                      titleInput.value = "";
+                      amountInput.value = "";
+                    }} className="item-add-button">
+                      <PlusCircle size={18} color="#097969" />
+                    </button>
                   </div>
-                  <Trash2 size={15} color="#E30B5C" className="icon delete" onClick={() => deleteExpense(tracker.id, expense.id)} />
-                </div>
-              ))}
-            <button onClick={() => toggleStatus(tracker.id)} className="completed-button">
-              {tracker.status === "In progress ⚠️" ? "Done" : "Edit"}
-            </button>
+                }
+                {tracker.expenses.map((expense) => (
+                  <div key={expense.id} className="item-container">
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                      <Asterisk size={15} color="#800080" />
+                      <p className="item-name">{expense.title}: ${expense.amount.toFixed(2)}</p>
+                    </div>
+                    <Trash2 size={15} color="#E30B5C" className="icon delete" onClick={() => deleteExpense(tracker.id, expense.id)} />
+                  </div>
+                ))}
+                <button onClick={() => toggleStatus(tracker.id)} className="completed-button">
+                  {tracker.status === "In progress ⚠️" ? "Done" : "Edit"}
+                </button>
+              </>
+            )}
           </div>
         ))}
       </div>

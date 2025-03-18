@@ -70,6 +70,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   margin-top: 3rem;
+  align-items: flex-start;
 }
 
 .tracker-card {
@@ -158,6 +159,7 @@
   border-radius: 50px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .completed-button {
@@ -168,4 +170,13 @@
   color: #F8C8DC;
   font-size: 16px;
   font-family: cursive;
+  cursor: pointer;
+}
+.expand-button {
+  margin: 0;
+  text-align: center;
+  font-family: cursive;
+  color: #DC143C;
+  font-size: .9rem;
+  cursor: pointer;
 }
