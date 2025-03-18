@@ -40,6 +40,11 @@ const App: React.FC = () => {
     setTrackerName("");
   };
 
+  const deleteTracker = (trackerId: number): void => {
+    setTrackers(trackers.filter(tracker => tracker.id !== trackerId));
+  };
+
+
   const addExpense = (trackerId: number, title: string, amount: string): void => {
     if (!title || !amount) return;
     setTrackers(trackers.map(tracker =>
@@ -98,6 +103,7 @@ const App: React.FC = () => {
             <p onClick={() => toggleExpand(tracker.id)} className="expand-button">
               {tracker.expanded ? "Show Less..🤌" : "View More..👆"}
             </p>
+            <p onClick={() => deleteTracker(tracker.id)} className="expand-button"><Trash2 size={15} color="#E30B5C" /></p>
             {tracker.expanded && (
               <>
                 {tracker.status === "In progress ⚠️" &&
