@@ -1,42 +1,171 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+.container {
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-title {
+  font-size: 3.2rem;
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  color: #F8C8DC;
   text-align: center;
+  text-shadow: 3px 3px 0 #800080, 1px 1px 0 #800080;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 2rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.input-box {
+  text-align: center;
+  width: 100%;
+  padding: .8rem 2rem;
+  border: 1px solid #800080;
+  border-radius: 50px;
+  font-size: 16px;
+  background-color: #F8C8DC;
+  color: #800080;
+  outline-style: none;
+  margin-bottom: 1rem;
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.input-box::placeholder {
+  color: #fff;
+  font-style: italic;
+  font-size: 14px;
+  opacity: 0.6;
 }
 
-.card {
-  padding: 2em;
+.add-button {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  background-color: #800080;
+  font-family: cursive;
+  color: #F8C8DC;
+  font-size: 1.2rem;
+
 }
 
-.read-the-docs {
-  color: #888;
+.add-button:focus {
+  outline: none;
+}
+
+.add-button:hover {
+  background-color: #800080;
+}
+
+.tracker-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+}
+
+.tracker-card {
+  background-color: #F8C8DC;
+  border: 1px solid #800080;
+  border-radius: 30px;
+  padding: 1rem 1.5rem;
+}
+
+.tracker-name {
+  text-align: center;
+  font-family: cursive;
+  color: #800080;
+  font-size: 1.5rem;
+}
+
+.total {
+  text-align: center;
+  font-family: cursive;
+  color: #800080;
+  font-size: 1.5rem;
+  margin: .8rem 0;
+}
+
+.status {
+  text-align: center;
+  font-family: cursive;
+  color: #800080;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.item-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.title-input {
+  text-align: center;
+  padding: .5rem 1.5rem;
+  border: 1px solid #800080;
+  border-radius: 50px;
+  font-size: 16px;
+  background-color: #F8C8DC;
+  color: #800080;
+  outline-style: none;
+  margin-bottom: 1rem;
+}
+
+.amount-input {
+  text-align: center;
+  padding: .5rem 1.5rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  background-color: #800080;
+  color: #F8C8DC;
+  outline-style: none;
+  margin-bottom: 1rem;
+}
+
+.item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.item-name {
+  font-family: cursive;
+  color: #800080e1;
+  font-size: 1.1rem;
+  margin-left: 1rem;
+  text-transform: capitalize;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.item-add-button {
+  background: none;
+  border: 1px solid #800080;
+  padding: .4rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.completed-button {
+  background: #800080;
+  border: none;
+  padding: .5rem 1.2rem;
+  border-radius: 5px;
+  color: #F8C8DC;
+  font-size: 16px;
+  font-family: cursive;
 }
